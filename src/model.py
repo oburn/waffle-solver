@@ -1,23 +1,27 @@
 from enum import Enum, auto
 
-class CellStartState(Enum):
+class CellInputState(Enum):
     EXACT = auto()  # green state - leter is exactly in the right place
     ALONG = auto()  # yellow state - letter used elsewhere in the word
     MISS = auto()  # clear state - letter is not used in the word
     INVALID = auto()  # invalid state - picked a wrong point
 
-class CellStart():
-    def __init__(self, state: CellStartState, char: str) -> None:
+class CellInput():
+    def __init__(self, char: str, state: CellInputState) -> None:
         self.state = state
         self.char = char
         
-type StartState = tuple[
-    tuple[CellStart, CellStart, CellStart, CellStart, CellStart],
-    tuple[CellStart, None, CellStart, None, CellStart],
-    tuple[CellStart, CellStart, CellStart, CellStart, CellStart],
-    tuple[CellStart, None, CellStart, None, CellStart],
-    tuple[CellStart, CellStart, CellStart, CellStart, CellStart],
+type Input = tuple[
+    tuple[CellInput, CellInput, CellInput, CellInput, CellInput],
+    tuple[CellInput, None, CellInput, None, CellInput],
+    tuple[CellInput, CellInput, CellInput, CellInput, CellInput],
+    tuple[CellInput, None, CellInput, None, CellInput],
+    tuple[CellInput, CellInput, CellInput, CellInput, CellInput],
 ]
+
+class InitialState:
+    def __init__(self, start_state: Input) -> None:
+        self.start_state = start_state
 
 class Point:
     def __init__(self, x: int, y: int) -> None:

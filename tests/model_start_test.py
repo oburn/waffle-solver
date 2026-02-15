@@ -1,47 +1,70 @@
-from src.model import CellStart, CellStartState, StartState
+from src.model import CellInput, CellInputState, Input
 
 
-def example1_start_state() -> StartState:
+
+def example1_input() -> Input:
     """Example 1 of creating a StartState for a Waffle puzzle."""
     return (
         (
-            CellStart(CellStartState.EXACT, 'E'),
-            CellStart(CellStartState.MISS, 'M'),
-            CellStart(CellStartState.MISS, 'I'),
-            CellStart(CellStartState.MISS, 'J'),
-            CellStart(CellStartState.EXACT, 'E'),
+            CellInput('E', CellInputState.EXACT),
+            CellInput('M', CellInputState.MISS),
+            CellInput('I', CellInputState.MISS),
+            CellInput('J', CellInputState.MISS),
+            CellInput('E', CellInputState.EXACT),
         ),
         (
-            CellStart(CellStartState.MISS, 'S'),
+            CellInput('S', CellInputState.MISS),
             None,
-            CellStart(CellStartState.ALONG, 'E'),
+            CellInput('E', CellInputState.ALONG),
             None,
-            CellStart(CellStartState.MISS, 'D'),
+            CellInput('D', CellInputState.MISS),
         ),
         (
-            CellStart(CellStartState.ALONG, 'G'),
-            CellStart(CellStartState.MISS, 'N'),
-            CellStart(CellStartState.EXACT, 'A'),
-            CellStart(CellStartState.MISS, 'V'),
-            CellStart(CellStartState.ALONG, 'N'),
+            CellInput('G', CellInputState.ALONG),
+            CellInput('N', CellInputState.MISS),
+            CellInput('A', CellInputState.EXACT),
+            CellInput('V', CellInputState.MISS),
+            CellInput('N', CellInputState.ALONG),
         ),
         (
-            CellStart(CellStartState.ALONG, 'L'),
+            CellInput('L', CellInputState.ALONG),
             None,
-            CellStart(CellStartState.MISS, 'C'),
+            CellInput('C', CellInputState.MISS),
             None,
-            CellStart(CellStartState.ALONG, 'E'),
+            CellInput('E', CellInputState.ALONG),
         ),
         (
-            CellStart(CellStartState.EXACT, 'E'),
-            CellStart(CellStartState.MISS, 'U'),
-            CellStart(CellStartState.ALONG, 'T'),
-            CellStart(CellStartState.MISS, 'R'),
-            CellStart(CellStartState.EXACT, 'T'),
+            CellInput('E', CellInputState.EXACT),
+            CellInput('U', CellInputState.MISS),
+            CellInput('T', CellInputState.ALONG),
+            CellInput('R', CellInputState.MISS),
+            CellInput('T', CellInputState.EXACT),
         ),
     )
 
 
-if __name__ == "__main__":
-    state = example_start_state()
-    print(state)
+def test_example1_input():
+    """Test that example1_start_state returns a valid StartState."""
+    state = example1_input()
+    
+    # Verify structure: should be a 5-tuple
+    assert len(state) == 5
+    
+    # Verify row structure
+    assert len(state[0]) == 5  # Row 1: all 5 cells
+    assert len(state[1]) == 5  # Row 2: 3 cells + 2 Nones
+    assert len(state[2]) == 5  # Row 3: all 5 cells
+    assert len(state[3]) == 5  # Row 4: 3 cells + 2 Nones
+    assert len(state[4]) == 5  # Row 5: all 5 cells
+    
+    # Verify None positions in cross pattern
+    assert state[1][1] is None
+    assert state[1][3] is None
+    assert state[3][1] is None
+    assert state[3][3] is None
+    
+    # Verify first cell in first row
+    first_cell = state[0][0]
+    assert isinstance(first_cell, CellInput)
+    assert first_cell.char == 'E'
+    assert first_cell.state == CellInputState.EXACT
