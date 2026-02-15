@@ -1,10 +1,10 @@
-from src.model import CellInput, CellInputState, Input
+from src.model import CellInput, CellInputState, InitialState, Input, WordDirection
 
 
 
-def example1_input() -> Input:
+def example1_input() -> InitialState:
     """Example 1 of creating a StartState for a Waffle puzzle."""
-    return (
+    return InitialState((
         (
             CellInput('E', CellInputState.EXACT),
             CellInput('M', CellInputState.MISS),
@@ -40,31 +40,67 @@ def example1_input() -> Input:
             CellInput('R', CellInputState.MISS),
             CellInput('T', CellInputState.EXACT),
         ),
-    )
+    ))
 
 
 def test_example1_input():
     """Test that example1_start_state returns a valid StartState."""
-    state = example1_input()
+    input = example1_input()
     
     # Verify structure: should be a 5-tuple
-    assert len(state) == 5
+    assert len(input.input) == 5
     
-    # Verify row structure
-    assert len(state[0]) == 5  # Row 1: all 5 cells
-    assert len(state[1]) == 5  # Row 2: 3 cells + 2 Nones
-    assert len(state[2]) == 5  # Row 3: all 5 cells
-    assert len(state[3]) == 5  # Row 4: 3 cells + 2 Nones
-    assert len(state[4]) == 5  # Row 5: all 5 cells
+    # Verify words() returns 6 WordInput objects (3 horizontal + 3 vertical)
+    words = input.words()
+    assert len(words) == 6
     
-    # Verify None positions in cross pattern
-    assert state[1][1] is None
-    assert state[1][3] is None
-    assert state[3][1] is None
-    assert state[3][3] is None
+    # Verify horizontal words
+    assert words[0].start.x == 0 and words[0].start.y == 0
+    assert words[0].direction == WordDirection.HORIZONTAL
+    assert words[0].word[0].char == 'E' and words[0].word[0].state == CellInputState.EXACT
+    assert words[0].word[1].char == 'M' and words[0].word[1].state == CellInputState.MISS
+    assert words[0].word[2].char == 'I' and words[0].word[2].state == CellInputState.MISS
+    assert words[0].word[3].char == 'J' and words[0].word[3].state == CellInputState.MISS
+    assert words[0].word[4].char == 'E' and words[0].word[4].state == CellInputState.EXACT
     
-    # Verify first cell in first row
-    first_cell = state[0][0]
-    assert isinstance(first_cell, CellInput)
-    assert first_cell.char == 'E'
-    assert first_cell.state == CellInputState.EXACT
+    assert words[1].start.x == 0 and words[1].start.y == 2
+    assert words[1].direction == WordDirection.HORIZONTAL
+    assert words[1].word[0].char == 'G' and words[1].word[0].state == CellInputState.ALONG
+    assert words[1].word[1].char == 'N' and words[1].word[1].state == CellInputState.MISS
+    assert words[1].word[2].char == 'A' and words[1].word[2].state == CellInputState.EXACT
+    assert words[1].word[3].char == 'V' and words[1].word[3].state == CellInputState.MISS
+    assert words[1].word[4].char == 'N' and words[1].word[4].state == CellInputState.ALONG
+    
+    assert words[2].start.x == 0 and words[2].start.y == 4
+    assert words[2].direction == WordDirection.HORIZONTAL
+    assert words[2].word[0].char == 'E' and words[2].word[0].state == CellInputState.EXACT
+    assert words[2].word[1].char == 'U' and words[2].word[1].state == CellInputState.MISS
+    assert words[2].word[2].char == 'T' and words[2].word[2].state == CellInputState.ALONG
+    assert words[2].word[3].char == 'R' and words[2].word[3].state == CellInputState.MISS
+    assert words[2].word[4].char == 'T' and words[2].word[4].state == CellInputState.EXACT
+    
+    # Verify vertical words
+    assert words[3].start.x == 0 and words[3].start.y == 0
+    assert words[3].direction == WordDirection.VERTICAL
+    assert words[3].word[0].char == 'E' and words[3].word[0].state == CellInputState.EXACT
+    assert words[3].word[1].char == 'S' and words[3].word[1].state == CellInputState.MISS
+    assert words[3].word[2].char == 'G' and words[3].word[2].state == CellInputState.ALONG
+    assert words[3].word[3].char == 'L' and words[3].word[3].state == CellInputState.ALONG
+    assert words[3].word[4].char == 'E' and words[3].word[4].state == CellInputState.EXACT
+    
+    assert words[4].start.x == 2 and words[4].start.y == 0
+    assert words[4].direction == WordDirection.VERTICAL
+    assert words[4].word[0].char == 'I' and words[4].word[0].state == CellInputState.MISS
+    assert words[4].word[1].char == 'E' and words[4].word[1].state == CellInputState.ALONG
+    assert words[4].word[2].char == 'A' and words[4].word[2].state == CellInputState.EXACT
+    assert words[4].word[3].char == 'C' and words[4].word[3].state == CellInputState.MISS
+    assert words[4].word[4].char == 'T' and words[4].word[4].state == CellInputState.ALONG
+    
+    assert words[5].start.x == 4 and words[5].start.y == 0
+    assert words[5].direction == WordDirection.VERTICAL
+    assert words[5].word[0].char == 'E' and words[5].word[0].state == CellInputState.EXACT
+    assert words[5].word[1].char == 'D' and words[5].word[1].state == CellInputState.MISS
+    assert words[5].word[2].char == 'N' and words[5].word[2].state == CellInputState.ALONG
+    assert words[5].word[3].char == 'E' and words[5].word[3].state == CellInputState.ALONG
+    assert words[5].word[4].char == 'T' and words[5].word[4].state == CellInputState.EXACT
+    
