@@ -18,6 +18,7 @@ Added textual using (sideeffect is to create the virtual environment):
 uv add textual
 uv add --dev textual-dev
 uv add --dev pytest
+uv add --dev mypy
 uv sync
 uv lock
 ```

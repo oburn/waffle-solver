@@ -18,6 +18,7 @@ class WordDirection(Enum):
     
 @dataclass(frozen=True)
 class CellInput:
+    pt: Point
     char: str
     state: CellInputState
 
@@ -25,7 +26,6 @@ type WordCells = tuple[CellInput, CellInput, CellInput, CellInput, CellInput]
 
 @dataclass(frozen=True)
 class WordInput:
-    start: Point
     direction: WordDirection
     word: tuple[CellInput, CellInput, CellInput, CellInput, CellInput]
         
@@ -44,8 +44,8 @@ class Fact(Enum):
 
 @dataclass(frozen=True)
 class FactAt:
-    char: str
     point: Point
+    char: str
     fact: Fact
 
 @dataclass(frozen=True)
@@ -54,12 +54,12 @@ class InitialState:
 
     def words(self) -> tuple[WordInput, WordInput, WordInput, WordInput, WordInput, WordInput]:
         return (
-            WordInput(Point(0, 0), WordDirection.HORIZONTAL, self.input[0]),
-            WordInput(Point(0, 2), WordDirection.HORIZONTAL, self.input[2]),
-            WordInput(Point(0, 4), WordDirection.HORIZONTAL, self.input[4]),
-            WordInput(Point(0, 0), WordDirection.VERTICAL, (self.input[0][0], self.input[1][0], self.input[2][0], self.input[3][0], self.input[4][0])),
-            WordInput(Point(2, 0), WordDirection.VERTICAL, (self.input[0][2], self.input[1][2], self.input[2][2], self.input[3][2], self.input[4][2])),
-            WordInput(Point(4, 0), WordDirection.VERTICAL, (self.input[0][4], self.input[1][4], self.input[2][4], self.input[3][4], self.input[4][4])),
+            WordInput(WordDirection.HORIZONTAL, self.input[0]),
+            WordInput(WordDirection.HORIZONTAL, self.input[2]),
+            WordInput(WordDirection.HORIZONTAL, self.input[4]),
+            WordInput(WordDirection.VERTICAL, (self.input[0][0], self.input[1][0], self.input[2][0], self.input[3][0], self.input[4][0])),
+            WordInput(WordDirection.VERTICAL, (self.input[0][2], self.input[1][2], self.input[2][2], self.input[3][2], self.input[4][2])),
+            WordInput(WordDirection.VERTICAL, (self.input[0][4], self.input[1][4], self.input[2][4], self.input[3][4], self.input[4][4])),
         )
 
     # method that returns the CellInput that are not None in the input as well as not being in EXACT state
@@ -72,5 +72,5 @@ class InitialState:
         return non_exact
 
     def basic_facts(self, cell: CellInput) -> list[FactAt]:
-        facts = []
+        facts: list[FactAt] = []
         return facts
