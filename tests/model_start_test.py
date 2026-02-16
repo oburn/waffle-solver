@@ -104,3 +104,21 @@ def test_example1_input():
     assert words[5].word[3].char == 'E' and words[5].word[3].state == CellInputState.ALONG
     assert words[5].word[4].char == 'T' and words[5].word[4].state == CellInputState.EXACT
     
+def test_example1_word1():
+    """Test that the first horizontal word in example1_input is correct."""
+    input = example1_input()
+    word1 = input.words()[1]
+    
+    print(f"Word 1: {word1}")
+
+    for ci in word1.word:
+        if ci.state == CellInputState.MISS:
+            print(f"  Char: {ci.char}, State: {ci.state} (should be MISS)")
+        elif ci.state == CellInputState.ALONG:
+            print(f"  Char: {ci.char}, State: {ci.state} (should be ALONG)")
+
+    for ne in input.non_exact_inputs():
+        print(f"Non-exact input: Char: {ne.char}, State: {ne.state}")
+
+    # assert False
+    
