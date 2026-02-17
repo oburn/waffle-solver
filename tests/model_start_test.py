@@ -189,3 +189,13 @@ def test_example2_axis_cells_offset_middle() -> None:
         input.rows[2][0], input.rows[2][2], input.rows[2][3], input.rows[2][4],
         input.rows[0][1], input.rows[4][1],
     }
+
+
+def test_example2_axis_cells_middle() -> None:
+    input = example2_input()
+    cells = input.axis_cells_for(input.rows[2][2])
+
+    assert cells == {
+        input.rows[2][0], input.rows[2][1], input.rows[2][3], input.rows[2][4],
+        input.rows[0][2], input.rows[1][2], input.rows[3][2], input.rows[4][2],
+    }
