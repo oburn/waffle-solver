@@ -1,5 +1,45 @@
 from src.model import CellInput, CellInputState, Fact, FactAt, InitialState, Point, WordDirection
 
+def example2_input() -> InitialState:
+    return InitialState((
+        (
+            CellInput(Point(0, 0), 'C', CellInputState.EXACT),
+            CellInput(Point(1, 0), 'R', CellInputState.EXACT),
+            CellInput(Point(2, 0), 'M', CellInputState.MISS),
+            CellInput(Point(3, 0), 'V', CellInputState.MISS),
+            CellInput(Point(4, 0), 'P', CellInputState.EXACT),
+        ),
+        (
+            CellInput(Point(0, 1), 'E', CellInputState.MISS),
+            None,
+            CellInput(Point(2, 1), 'R', CellInputState.MISS),
+            None,
+            CellInput(Point(4, 1), 'G', CellInputState.ALONG),
+        ),
+        (
+            CellInput(Point(0, 2), 'L', CellInputState.ALONG),
+            CellInput(Point(1, 2), 'A', CellInputState.MISS),
+            CellInput(Point(2, 2), 'I', CellInputState.EXACT),
+            CellInput(Point(3, 2), 'V', CellInputState.MISS),
+            CellInput(Point(4, 2), 'Y', CellInputState.ALONG),
+        ),
+        (
+            CellInput(Point(0, 3), 'E', CellInputState.MISS),
+            None,
+            CellInput(Point(2, 3), 'N', CellInputState.MISS),
+            None,
+            CellInput(Point(4, 3), 'B', CellInputState.MISS),
+        ),
+        (
+            CellInput(Point(0, 4), 'E', CellInputState.EXACT),
+            CellInput(Point(1, 4), 'L', CellInputState.MISS),
+            CellInput(Point(2, 4), 'O', CellInputState.ALONG),
+            CellInput(Point(3, 4), 'U', CellInputState.MISS),
+            CellInput(Point(4, 4), 'Y', CellInputState.EXACT),
+        ),
+    ))
+
+
 def example1_input() -> InitialState:
     """Example 1 of creating a StartState for a Waffle puzzle."""
     return InitialState((
@@ -123,26 +163,26 @@ def test_example1_word1():
 
     # assert False
     
-def test_example1_exact_cell_facts() -> None:
-    input = example1_input()
+def test_example2_exact_cell_facts() -> None:
+    input = example2_input()
     facts = input.basic_facts_at(input.rows[0][0])
 
-    assert facts == {FactAt(Point(0, 0), 'E', Fact.MUST_BE)}
+    assert facts == {FactAt(Point(0, 0), 'C', Fact.MUST_BE)}
 
-    facts = input.basic_facts_at(input.rows[0][1])
+    facts = input.basic_facts_at(input.rows[0][3])
     print(facts)
-    assert facts == {FactAt(Point(1, 0), 'M', Fact.CANNOT_BE)}
+    assert facts == {FactAt(Point(3, 0), 'V', Fact.CANNOT_BE)}
 
-def test_example1_axis_cells_corner() -> None:
-    input = example1_input()
+def test_example2_axis_cells_corner() -> None:
+    input = example2_input()
     cells = input.axis_cells_for(input.rows[0][0])
     assert cells == {
         input.rows[0][1], input.rows[0][2], input.rows[0][3], input.rows[0][4],
         input.rows[1][0], input.rows[2][0], input.rows[3][0], input.rows[4][0],
     }
 
-def test_example1_axis_cells_offset_middle() -> None:
-    input = example1_input()
+def test_example2_axis_cells_offset_middle() -> None:
+    input = example2_input()
     cells = input.axis_cells_for(input.rows[2][1])
 
     assert cells == {
