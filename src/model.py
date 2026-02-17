@@ -84,6 +84,9 @@ class InitialState:
             # TODO: need to add COULD_BE facts for all other cells
         else:
             facts.add(FactAt(cell.pt, cell.char, Fact.CANNOT_BE))
+            for nei in self.non_exact_inputs():
+                if nei.pt != cell.pt:
+                    facts.add(FactAt(nei.pt, cell.char, Fact.COULD_BE))
             # TODO: need to add COULD_BE facts for all other cells
             # NOTE: should track the fact for the axis that there must by at least one other cell with the same char
         return facts
