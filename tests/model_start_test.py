@@ -173,11 +173,29 @@ def test_example2_miss_cell_facts1() -> None:
     input = example2_input()
     facts = input.basic_facts_at(input.rows[0][3])
     assert facts == {
+        # Axis cells
         FactAt(Point(0, 0), 'V', Fact.CANNOT_BE),
         FactAt(Point(1, 0), 'V', Fact.CANNOT_BE),
         FactAt(Point(2, 0), 'V', Fact.CANNOT_BE),
         FactAt(Point(3, 0), 'V', Fact.CANNOT_BE),
         FactAt(Point(4, 0), 'V', Fact.CANNOT_BE),
+        # Second row
+        FactAt(Point(0, 1), 'V', Fact.COULD_BE),
+        FactAt(Point(2, 1), 'V', Fact.COULD_BE),
+        FactAt(Point(4, 1), 'V', Fact.COULD_BE),
+        # Third row
+        FactAt(Point(0, 2), 'V', Fact.COULD_BE),
+        FactAt(Point(1, 2), 'V', Fact.COULD_BE),
+        FactAt(Point(3, 2), 'V', Fact.COULD_BE),
+        FactAt(Point(4, 2), 'V', Fact.COULD_BE),
+        # Fourth row
+        FactAt(Point(0, 3), 'V', Fact.COULD_BE),
+        FactAt(Point(2, 3), 'V', Fact.COULD_BE),
+        FactAt(Point(4, 3), 'V', Fact.COULD_BE),
+        # Fifth row
+        FactAt(Point(1, 4), 'V', Fact.COULD_BE),
+        FactAt(Point(2, 4), 'V', Fact.COULD_BE),
+        FactAt(Point(3, 4), 'V', Fact.COULD_BE),
     }
 
 
@@ -185,6 +203,7 @@ def test_example2_miss_cell_facts2() -> None:
     input = example2_input()
     facts = input.basic_facts_at(input.rows[0][2])
     assert facts == {
+        # Axis cells
         FactAt(Point(0, 0), 'M', Fact.CANNOT_BE),
         FactAt(Point(1, 0), 'M', Fact.CANNOT_BE),
         FactAt(Point(2, 0), 'M', Fact.CANNOT_BE),
@@ -194,6 +213,20 @@ def test_example2_miss_cell_facts2() -> None:
         FactAt(Point(2, 2), 'M', Fact.CANNOT_BE),
         FactAt(Point(2, 3), 'M', Fact.CANNOT_BE),
         FactAt(Point(2, 4), 'M', Fact.CANNOT_BE),
+        # Second row
+        FactAt(Point(0, 1), 'M', Fact.COULD_BE),
+        FactAt(Point(4, 1), 'M', Fact.COULD_BE),
+        # Third row
+        FactAt(Point(0, 2), 'M', Fact.COULD_BE),
+        FactAt(Point(1, 2), 'M', Fact.COULD_BE),
+        FactAt(Point(3, 2), 'M', Fact.COULD_BE),
+        FactAt(Point(4, 2), 'M', Fact.COULD_BE),
+        # Fourth row
+        FactAt(Point(0, 3), 'M', Fact.COULD_BE),
+        FactAt(Point(4, 3), 'M', Fact.COULD_BE),
+        # Fifth row
+        FactAt(Point(1, 4), 'M', Fact.COULD_BE),
+        FactAt(Point(3, 4), 'M', Fact.COULD_BE),
     }
 
 def test_example2_along_cell_facts() -> None:
