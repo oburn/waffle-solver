@@ -63,14 +63,34 @@ class InitialState:
         )
 
     # method that returns the CellInput that are not None in the input as well as not being in EXACT state
-    def non_exact_inputs(self) -> list[CellInput]:
-        non_exact = []
+    def non_exact_inputs(self) -> set[CellInput]:
+        non_exact: set[CellInput] = set()
         for word_cells in self.input:
             for cell in word_cells:
                 if cell is not None and cell.state != CellInputState.EXACT:
-                    non_exact.append(cell)
+                    non_exact.add(cell)
         return non_exact
 
-    def basic_facts(self, cell: CellInput) -> list[FactAt]:
-        facts: list[FactAt] = []
+    def basic_facts_at(self, cell: CellInput) -> set[FactAt]:
+        facts: set[FactAt] = set()
+
+        if cell.state == CellInputState.EXACT:
+            facts.add(FactAt(cell.pt, cell.char, Fact.MUST_BE))
+            # TODO: need to add not facts for the axis
+        elif cell.state == CellInputState.MISS:
+            facts.add(FactAt(cell.pt, cell.char, Fact.CANNOT_BE))
+            # TODO: need to add CANNOT_BE facts for the axis
+            # TODO: need to add COULD_BE facts for all other cells
+        else:
+            facts.add(FactAt(cell.pt, cell.char, Fact.CANNOT_BE))
+            # TODO: need to add COULD_BE facts for all other cells
+            # NOTE: should track the fact for the axis that there must by at least one other cell with the same char
         return facts
+
+    def axis_cells_for(self, cell: CellInput) -> set[CellInput]:
+        axis_cells: set[CellInput] = set()
+        for word_cells in self.input:
+            for c in word_cells:
+                if c is not None and (c.pt.x == cell.pt.x or c.pt.y == cell.pt.y) and c.pt != cell.pt:
+                    axis_cells.add(c)
+        return axis_cells
