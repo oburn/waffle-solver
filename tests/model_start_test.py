@@ -169,17 +169,33 @@ def test_example2_exact_cell_facts() -> None:
     assert facts == {FactAt(Point(0, 0), 'C', Fact.MUST_BE)}
 
 
-def test_example2_miss_cell_facts() -> None:
+def test_example2_miss_cell_facts1() -> None:
     input = example2_input()
 
     facts = input.basic_facts_at(input.rows[0][3])
-    print(facts)
     assert facts == {
-        FactAt(Point(3, 0), 'V', Fact.CANNOT_BE),
         FactAt(Point(0, 0), 'V', Fact.CANNOT_BE),
         FactAt(Point(1, 0), 'V', Fact.CANNOT_BE),
         FactAt(Point(2, 0), 'V', Fact.CANNOT_BE),
+        FactAt(Point(3, 0), 'V', Fact.CANNOT_BE),
         FactAt(Point(4, 0), 'V', Fact.CANNOT_BE),
+    }
+
+
+def test_example2_miss_cell_facts2() -> None:
+    input = example2_input()
+
+    facts = input.basic_facts_at(input.rows[0][2])
+    assert facts == {
+        FactAt(Point(0, 0), 'M', Fact.CANNOT_BE),
+        FactAt(Point(1, 0), 'M', Fact.CANNOT_BE),
+        FactAt(Point(2, 0), 'M', Fact.CANNOT_BE),
+        FactAt(Point(3, 0), 'M', Fact.CANNOT_BE),
+        FactAt(Point(4, 0), 'M', Fact.CANNOT_BE),
+        FactAt(Point(2, 1), 'M', Fact.CANNOT_BE),
+        FactAt(Point(2, 2), 'M', Fact.CANNOT_BE),
+        FactAt(Point(2, 3), 'M', Fact.CANNOT_BE),
+        FactAt(Point(2, 4), 'M', Fact.CANNOT_BE),
     }
 
 

@@ -95,7 +95,6 @@ class InitialState:
                 if w is not None and \
                     w.pt != cell.pt and \
                     ((cell.pt.x in {0, 2, 4} and cell.pt.x == w.pt.x) or \
-                    (cell.pt.y in {0, 2, 4} and cell.pt.y == w.pt.y) or \
-                    (False)):
+                    (cell.pt.y in {0, 2, 4} and cell.pt.y == w.pt.y)):
                     axis_cells.add(w)
         return axis_cells
