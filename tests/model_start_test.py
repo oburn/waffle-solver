@@ -1,4 +1,4 @@
-from src.model import CellInput, CellInputState, Fact, FactAt, InitialState, Input, Point, WordDirection
+from src.model import CellInput, CellInputState, Fact, FactAt, InitialState, Point, WordDirection
 
 def example1_input() -> InitialState:
     """Example 1 of creating a StartState for a Waffle puzzle."""

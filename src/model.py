@@ -29,7 +29,7 @@ class WordInput:
     direction: WordDirection
     word: tuple[CellInput, CellInput, CellInput, CellInput, CellInput]
         
-type Input = tuple[
+type Rows = tuple[
     WordCells,
     tuple[CellInput, None, CellInput, None, CellInput],
     WordCells,
@@ -50,7 +50,7 @@ class FactAt:
 
 @dataclass(frozen=True)
 class InitialState:
-    input: Input
+    input: Rows
 
     def words(self) -> tuple[WordInput, WordInput, WordInput, WordInput, WordInput, WordInput]:
         return (
