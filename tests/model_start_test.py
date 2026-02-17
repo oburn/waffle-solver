@@ -46,7 +46,7 @@ def test_example1_input():
     input = example1_input()
     
     # Verify structure: should be a 5-tuple
-    assert len(input.input) == 5
+    assert len(input.rows) == 5
     
     # Verify words() returns 6 WordInput objects (3 horizontal + 3 vertical)
     words = input.words()
@@ -125,27 +125,27 @@ def test_example1_word1():
     
 def test_example1_exact_cell_facts() -> None:
     input = example1_input()
-    facts = input.basic_facts_at(input.input[0][0])
+    facts = input.basic_facts_at(input.rows[0][0])
 
     assert facts == {FactAt(Point(0, 0), 'E', Fact.MUST_BE)}
 
-    facts = input.basic_facts_at(input.input[0][1])
+    facts = input.basic_facts_at(input.rows[0][1])
     print(facts)
     assert facts == {FactAt(Point(1, 0), 'M', Fact.CANNOT_BE)}
 
 def test_example1_axis_cells_corner() -> None:
     input = example1_input()
-    cells = input.axis_cells_for(input.input[0][0])
+    cells = input.axis_cells_for(input.rows[0][0])
     assert cells == {
-        input.input[0][1], input.input[0][2], input.input[0][3], input.input[0][4],
-        input.input[1][0], input.input[2][0], input.input[3][0], input.input[4][0],
+        input.rows[0][1], input.rows[0][2], input.rows[0][3], input.rows[0][4],
+        input.rows[1][0], input.rows[2][0], input.rows[3][0], input.rows[4][0],
     }
 
 def test_example1_axis_cells_offset_middle() -> None:
     input = example1_input()
-    cells = input.axis_cells_for(input.input[2][1])
+    cells = input.axis_cells_for(input.rows[2][1])
 
     assert cells == {
-        input.input[2][0], input.input[2][2], input.input[2][3], input.input[2][4],
-        input.input[0][1], input.input[4][1],
+        input.rows[2][0], input.rows[2][2], input.rows[2][3], input.rows[2][4],
+        input.rows[0][1], input.rows[4][1],
     }

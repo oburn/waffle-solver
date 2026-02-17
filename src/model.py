@@ -50,22 +50,22 @@ class FactAt:
 
 @dataclass(frozen=True)
 class InitialState:
-    input: Rows
+    rows: Rows
 
     def words(self) -> tuple[WordInput, WordInput, WordInput, WordInput, WordInput, WordInput]:
         return (
-            WordInput(WordDirection.HORIZONTAL, self.input[0]),
-            WordInput(WordDirection.HORIZONTAL, self.input[2]),
-            WordInput(WordDirection.HORIZONTAL, self.input[4]),
-            WordInput(WordDirection.VERTICAL, (self.input[0][0], self.input[1][0], self.input[2][0], self.input[3][0], self.input[4][0])),
-            WordInput(WordDirection.VERTICAL, (self.input[0][2], self.input[1][2], self.input[2][2], self.input[3][2], self.input[4][2])),
-            WordInput(WordDirection.VERTICAL, (self.input[0][4], self.input[1][4], self.input[2][4], self.input[3][4], self.input[4][4])),
+            WordInput(WordDirection.HORIZONTAL, self.rows[0]),
+            WordInput(WordDirection.HORIZONTAL, self.rows[2]),
+            WordInput(WordDirection.HORIZONTAL, self.rows[4]),
+            WordInput(WordDirection.VERTICAL, (self.rows[0][0], self.rows[1][0], self.rows[2][0], self.rows[3][0], self.rows[4][0])),
+            WordInput(WordDirection.VERTICAL, (self.rows[0][2], self.rows[1][2], self.rows[2][2], self.rows[3][2], self.rows[4][2])),
+            WordInput(WordDirection.VERTICAL, (self.rows[0][4], self.rows[1][4], self.rows[2][4], self.rows[3][4], self.rows[4][4])),
         )
 
     # method that returns the CellInput that are not None in the input as well as not being in EXACT state
     def non_exact_inputs(self) -> set[CellInput]:
         non_exact: set[CellInput] = set()
-        for word_cells in self.input:
+        for word_cells in self.rows:
             for cell in word_cells:
                 if cell is not None and cell.state != CellInputState.EXACT:
                     non_exact.add(cell)
@@ -89,7 +89,7 @@ class InitialState:
 
     def axis_cells_for(self, cell: CellInput) -> set[CellInput]:
         axis_cells: set[CellInput] = set()
-        for word_cells in self.input:
+        for word_cells in self.rows:
             for c in word_cells:
                 if c is not None and (c.pt.x == cell.pt.x or c.pt.y == cell.pt.y) and c.pt != cell.pt:
                     axis_cells.add(c)
