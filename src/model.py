@@ -79,7 +79,8 @@ class InitialState:
             # TODO: need to add not facts for the axis
         elif cell.state == CellInputState.MISS:
             facts.add(FactAt(cell.pt, cell.char, Fact.CANNOT_BE))
-            # TODO: need to add CANNOT_BE facts for the axis
+            for axis_cell in self.axis_cells_for(cell):
+                facts.add(FactAt(axis_cell.pt, cell.char, Fact.CANNOT_BE))
             # TODO: need to add COULD_BE facts for all other cells
         else:
             facts.add(FactAt(cell.pt, cell.char, Fact.CANNOT_BE))
@@ -90,7 +91,11 @@ class InitialState:
     def axis_cells_for(self, cell: CellInput) -> set[CellInput]:
         axis_cells: set[CellInput] = set()
         for word_cells in self.rows:
-            for c in word_cells:
-                if c is not None and (c.pt.x == cell.pt.x or c.pt.y == cell.pt.y) and c.pt != cell.pt:
-                    axis_cells.add(c)
+            for w in word_cells:
+                if w is not None and \
+                    w.pt != cell.pt and \
+                    ((cell.pt.x in {0, 2, 4} and cell.pt.x == w.pt.x) or \
+                    (cell.pt.y in {0, 2, 4} and cell.pt.y == w.pt.y) or \
+                    (False)):
+                    axis_cells.add(w)
         return axis_cells

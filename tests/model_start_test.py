@@ -161,17 +161,27 @@ def test_example1_word1():
     for ne in input.non_exact_inputs():
         print(f"Non-exact input: Char: {ne.char}, State: {ne.state}")
 
-    # assert False
-    
+
 def test_example2_exact_cell_facts() -> None:
     input = example2_input()
     facts = input.basic_facts_at(input.rows[0][0])
 
     assert facts == {FactAt(Point(0, 0), 'C', Fact.MUST_BE)}
 
+
+def test_example2_miss_cell_facts() -> None:
+    input = example2_input()
+
     facts = input.basic_facts_at(input.rows[0][3])
     print(facts)
-    assert facts == {FactAt(Point(3, 0), 'V', Fact.CANNOT_BE)}
+    assert facts == {
+        FactAt(Point(3, 0), 'V', Fact.CANNOT_BE),
+        FactAt(Point(0, 0), 'V', Fact.CANNOT_BE),
+        FactAt(Point(1, 0), 'V', Fact.CANNOT_BE),
+        FactAt(Point(2, 0), 'V', Fact.CANNOT_BE),
+        FactAt(Point(4, 0), 'V', Fact.CANNOT_BE),
+    }
+
 
 def test_example2_axis_cells_corner() -> None:
     input = example2_input()
@@ -181,13 +191,22 @@ def test_example2_axis_cells_corner() -> None:
         input.rows[1][0], input.rows[2][0], input.rows[3][0], input.rows[4][0],
     }
 
-def test_example2_axis_cells_offset_middle() -> None:
+
+def test_example2_axis_cells_offset_middle_horizontal() -> None:
     input = example2_input()
     cells = input.axis_cells_for(input.rows[2][1])
 
     assert cells == {
         input.rows[2][0], input.rows[2][2], input.rows[2][3], input.rows[2][4],
-        input.rows[0][1], input.rows[4][1],
+    }
+
+
+def test_example2_axis_cells_offset_middle_vertical() -> None:
+    input = example2_input()
+    cells = input.axis_cells_for(input.rows[1][2])
+
+    assert cells == {
+        input.rows[0][2], input.rows[2][2], input.rows[3][2], input.rows[4][2],
     }
 
 
