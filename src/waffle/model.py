@@ -117,3 +117,19 @@ class InitialState:
         for cell in word.word:
             result.update(f for f in all_facts if f.point == cell.pt)
         return result
+
+    def word_regex(self, word: WordInput) -> str:
+        regex = "^"
+        all_facts = self.all_facts()
+        for cell in word.word:
+            cell_facts = {f for f in all_facts if f.point == cell.pt}
+            must_be = {f.char for f in cell_facts if f.fact == Fact.MUST_BE}
+            could_be = {f.char for f in cell_facts if f.fact == Fact.COULD_BE}
+            cannot_be = {f.char for f in cell_facts if f.fact == Fact.CANNOT_BE}
+            refined_could_be = sorted(could_be - cannot_be)
+            if must_be:
+                regex += must_be.pop()
+            else:
+                regex += f"[{''.join(refined_could_be)}]"
+        regex += "$"
+        return regex
