@@ -111,13 +111,6 @@ class InitialState:
                     facts.update(self.basic_facts_at(cell))
         return facts
 
-    def word_facts(self, word: WordInput) -> set[FactAt]:
-        result: set[FactAt] = set()
-        all_facts = self.all_facts()
-        for cell in word.word:
-            result.update(f for f in all_facts if f.point == cell.pt)
-        return result
-
     def word_regex(self, word: WordInput) -> str:
         regex = "^"
         all_facts = self.all_facts()

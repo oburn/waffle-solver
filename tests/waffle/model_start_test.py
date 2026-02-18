@@ -3,39 +3,39 @@ from waffle.model import CellInput, CellInputState, Fact, FactAt, InitialState, 
 def example2_input() -> InitialState:
     return InitialState((
         (
-            CellInput(Point(0, 0), 'C', CellInputState.EXACT),
-            CellInput(Point(1, 0), 'R', CellInputState.EXACT),
-            CellInput(Point(2, 0), 'M', CellInputState.MISS),
-            CellInput(Point(3, 0), 'V', CellInputState.MISS),
-            CellInput(Point(4, 0), 'P', CellInputState.EXACT),
+            CellInput(Point(0, 0), 'c', CellInputState.EXACT),
+            CellInput(Point(1, 0), 'r', CellInputState.EXACT),
+            CellInput(Point(2, 0), 'm', CellInputState.MISS),
+            CellInput(Point(3, 0), 'v', CellInputState.MISS),
+            CellInput(Point(4, 0), 'p', CellInputState.EXACT),
         ),
         (
-            CellInput(Point(0, 1), 'E', CellInputState.MISS),
+            CellInput(Point(0, 1), 'e', CellInputState.MISS),
             None,
-            CellInput(Point(2, 1), 'R', CellInputState.MISS),
+            CellInput(Point(2, 1), 'r', CellInputState.MISS),
             None,
-            CellInput(Point(4, 1), 'G', CellInputState.ALONG),
+            CellInput(Point(4, 1), 'g', CellInputState.ALONG),
         ),
         (
-            CellInput(Point(0, 2), 'L', CellInputState.ALONG),
-            CellInput(Point(1, 2), 'A', CellInputState.MISS),
-            CellInput(Point(2, 2), 'I', CellInputState.EXACT),
-            CellInput(Point(3, 2), 'V', CellInputState.MISS),
-            CellInput(Point(4, 2), 'Y', CellInputState.ALONG),
+            CellInput(Point(0, 2), 'l', CellInputState.ALONG),
+            CellInput(Point(1, 2), 'a', CellInputState.MISS),
+            CellInput(Point(2, 2), 'i', CellInputState.EXACT),
+            CellInput(Point(3, 2), 'v', CellInputState.MISS),
+            CellInput(Point(4, 2), 'y', CellInputState.ALONG),
         ),
         (
-            CellInput(Point(0, 3), 'E', CellInputState.MISS),
+            CellInput(Point(0, 3), 'e', CellInputState.MISS),
             None,
-            CellInput(Point(2, 3), 'N', CellInputState.MISS),
+            CellInput(Point(2, 3), 'n', CellInputState.MISS),
             None,
-            CellInput(Point(4, 3), 'B', CellInputState.MISS),
+            CellInput(Point(4, 3), 'b', CellInputState.MISS),
         ),
         (
-            CellInput(Point(0, 4), 'E', CellInputState.EXACT),
-            CellInput(Point(1, 4), 'L', CellInputState.MISS),
-            CellInput(Point(2, 4), 'O', CellInputState.ALONG),
-            CellInput(Point(3, 4), 'U', CellInputState.MISS),
-            CellInput(Point(4, 4), 'Y', CellInputState.EXACT),
+            CellInput(Point(0, 4), 'e', CellInputState.EXACT),
+            CellInput(Point(1, 4), 'l', CellInputState.MISS),
+            CellInput(Point(2, 4), 'o', CellInputState.ALONG),
+            CellInput(Point(3, 4), 'u', CellInputState.MISS),
+            CellInput(Point(4, 4), 'y', CellInputState.EXACT),
         ),
     ))
 
@@ -166,7 +166,7 @@ def test_example2_exact_cell_facts() -> None:
     input = example2_input()
     facts = input.basic_facts_at(input.rows[0][0])
 
-    assert facts == {FactAt(Point(0, 0), 'C', Fact.MUST_BE)}
+    assert facts == {FactAt(Point(0, 0), 'c', Fact.MUST_BE)}
 
 
 def test_example2_miss_cell_facts1() -> None:
@@ -174,28 +174,28 @@ def test_example2_miss_cell_facts1() -> None:
     facts = input.basic_facts_at(input.rows[0][3])
     assert facts == {
         # Axis cells
-        FactAt(Point(0, 0), 'V', Fact.CANNOT_BE),
-        FactAt(Point(1, 0), 'V', Fact.CANNOT_BE),
-        FactAt(Point(2, 0), 'V', Fact.CANNOT_BE),
-        FactAt(Point(3, 0), 'V', Fact.CANNOT_BE),
-        FactAt(Point(4, 0), 'V', Fact.CANNOT_BE),
+        FactAt(Point(0, 0), 'v', Fact.CANNOT_BE),
+        FactAt(Point(1, 0), 'v', Fact.CANNOT_BE),
+        FactAt(Point(2, 0), 'v', Fact.CANNOT_BE),
+        FactAt(Point(3, 0), 'v', Fact.CANNOT_BE),
+        FactAt(Point(4, 0), 'v', Fact.CANNOT_BE),
         # Second row
-        FactAt(Point(0, 1), 'V', Fact.COULD_BE),
-        FactAt(Point(2, 1), 'V', Fact.COULD_BE),
-        FactAt(Point(4, 1), 'V', Fact.COULD_BE),
+        FactAt(Point(0, 1), 'v', Fact.COULD_BE),
+        FactAt(Point(2, 1), 'v', Fact.COULD_BE),
+        FactAt(Point(4, 1), 'v', Fact.COULD_BE),
         # Third row
-        FactAt(Point(0, 2), 'V', Fact.COULD_BE),
-        FactAt(Point(1, 2), 'V', Fact.COULD_BE),
-        FactAt(Point(3, 2), 'V', Fact.COULD_BE),
-        FactAt(Point(4, 2), 'V', Fact.COULD_BE),
+        FactAt(Point(0, 2), 'v', Fact.COULD_BE),
+        FactAt(Point(1, 2), 'v', Fact.COULD_BE),
+        FactAt(Point(3, 2), 'v', Fact.COULD_BE),
+        FactAt(Point(4, 2), 'v', Fact.COULD_BE),
         # Fourth row
-        FactAt(Point(0, 3), 'V', Fact.COULD_BE),
-        FactAt(Point(2, 3), 'V', Fact.COULD_BE),
-        FactAt(Point(4, 3), 'V', Fact.COULD_BE),
+        FactAt(Point(0, 3), 'v', Fact.COULD_BE),
+        FactAt(Point(2, 3), 'v', Fact.COULD_BE),
+        FactAt(Point(4, 3), 'v', Fact.COULD_BE),
         # Fifth row
-        FactAt(Point(1, 4), 'V', Fact.COULD_BE),
-        FactAt(Point(2, 4), 'V', Fact.COULD_BE),
-        FactAt(Point(3, 4), 'V', Fact.COULD_BE),
+        FactAt(Point(1, 4), 'v', Fact.COULD_BE),
+        FactAt(Point(2, 4), 'v', Fact.COULD_BE),
+        FactAt(Point(3, 4), 'v', Fact.COULD_BE),
     }
 
 
@@ -204,29 +204,29 @@ def test_example2_miss_cell_facts2() -> None:
     facts = input.basic_facts_at(input.rows[0][2])
     assert facts == {
         # Axis cells
-        FactAt(Point(0, 0), 'M', Fact.CANNOT_BE),
-        FactAt(Point(1, 0), 'M', Fact.CANNOT_BE),
-        FactAt(Point(2, 0), 'M', Fact.CANNOT_BE),
-        FactAt(Point(3, 0), 'M', Fact.CANNOT_BE),
-        FactAt(Point(4, 0), 'M', Fact.CANNOT_BE),
-        FactAt(Point(2, 1), 'M', Fact.CANNOT_BE),
-        FactAt(Point(2, 2), 'M', Fact.CANNOT_BE),
-        FactAt(Point(2, 3), 'M', Fact.CANNOT_BE),
-        FactAt(Point(2, 4), 'M', Fact.CANNOT_BE),
+        FactAt(Point(0, 0), 'm', Fact.CANNOT_BE),
+        FactAt(Point(1, 0), 'm', Fact.CANNOT_BE),
+        FactAt(Point(2, 0), 'm', Fact.CANNOT_BE),
+        FactAt(Point(3, 0), 'm', Fact.CANNOT_BE),
+        FactAt(Point(4, 0), 'm', Fact.CANNOT_BE),
+        FactAt(Point(2, 1), 'm', Fact.CANNOT_BE),
+        FactAt(Point(2, 2), 'm', Fact.CANNOT_BE),
+        FactAt(Point(2, 3), 'm', Fact.CANNOT_BE),
+        FactAt(Point(2, 4), 'm', Fact.CANNOT_BE),
         # Second row
-        FactAt(Point(0, 1), 'M', Fact.COULD_BE),
-        FactAt(Point(4, 1), 'M', Fact.COULD_BE),
+        FactAt(Point(0, 1), 'm', Fact.COULD_BE),
+        FactAt(Point(4, 1), 'm', Fact.COULD_BE),
         # Third row
-        FactAt(Point(0, 2), 'M', Fact.COULD_BE),
-        FactAt(Point(1, 2), 'M', Fact.COULD_BE),
-        FactAt(Point(3, 2), 'M', Fact.COULD_BE),
-        FactAt(Point(4, 2), 'M', Fact.COULD_BE),
+        FactAt(Point(0, 2), 'm', Fact.COULD_BE),
+        FactAt(Point(1, 2), 'm', Fact.COULD_BE),
+        FactAt(Point(3, 2), 'm', Fact.COULD_BE),
+        FactAt(Point(4, 2), 'm', Fact.COULD_BE),
         # Fourth row
-        FactAt(Point(0, 3), 'M', Fact.COULD_BE),
-        FactAt(Point(4, 3), 'M', Fact.COULD_BE),
+        FactAt(Point(0, 3), 'm', Fact.COULD_BE),
+        FactAt(Point(4, 3), 'm', Fact.COULD_BE),
         # Fifth row
-        FactAt(Point(1, 4), 'M', Fact.COULD_BE),
-        FactAt(Point(3, 4), 'M', Fact.COULD_BE),
+        FactAt(Point(1, 4), 'm', Fact.COULD_BE),
+        FactAt(Point(3, 4), 'm', Fact.COULD_BE),
     }
 
 def test_example2_along_cell_facts() -> None:
@@ -234,28 +234,28 @@ def test_example2_along_cell_facts() -> None:
     facts = input.basic_facts_at(input.rows[1][4])
     assert facts == {
         # Right column
-        FactAt(Point(4, 1), 'G', Fact.CANNOT_BE),
-        FactAt(Point(4, 2), 'G', Fact.COULD_BE),
-        FactAt(Point(4, 3), 'G', Fact.COULD_BE),
+        FactAt(Point(4, 1), 'g', Fact.CANNOT_BE),
+        FactAt(Point(4, 2), 'g', Fact.COULD_BE),
+        FactAt(Point(4, 3), 'g', Fact.COULD_BE),
         # First row
-        FactAt(Point(2, 0), 'G', Fact.COULD_BE),
-        FactAt(Point(3, 0), 'G', Fact.COULD_BE),
+        FactAt(Point(2, 0), 'g', Fact.COULD_BE),
+        FactAt(Point(3, 0), 'g', Fact.COULD_BE),
         # Second row
-        FactAt(Point(0, 1), 'G', Fact.COULD_BE),
-        FactAt(Point(2, 1), 'G', Fact.COULD_BE),
+        FactAt(Point(0, 1), 'g', Fact.COULD_BE),
+        FactAt(Point(2, 1), 'g', Fact.COULD_BE),
         # Third row
-        FactAt(Point(0, 2), 'G', Fact.COULD_BE),
-        FactAt(Point(1, 2), 'G', Fact.COULD_BE),
-        FactAt(Point(3, 2), 'G', Fact.COULD_BE),
-        FactAt(Point(4, 2), 'G', Fact.COULD_BE),
+        FactAt(Point(0, 2), 'g', Fact.COULD_BE),
+        FactAt(Point(1, 2), 'g', Fact.COULD_BE),
+        FactAt(Point(3, 2), 'g', Fact.COULD_BE),
+        FactAt(Point(4, 2), 'g', Fact.COULD_BE),
         # Fourth row
-        FactAt(Point(0, 3), 'G', Fact.COULD_BE),
-        FactAt(Point(2, 3), 'G', Fact.COULD_BE),
-        FactAt(Point(4, 3), 'G', Fact.COULD_BE),
+        FactAt(Point(0, 3), 'g', Fact.COULD_BE),
+        FactAt(Point(2, 3), 'g', Fact.COULD_BE),
+        FactAt(Point(4, 3), 'g', Fact.COULD_BE),
         # Fifth row
-        FactAt(Point(1, 4), 'G', Fact.COULD_BE),
-        FactAt(Point(2, 4), 'G', Fact.COULD_BE),
-        FactAt(Point(3, 4), 'G', Fact.COULD_BE),
+        FactAt(Point(1, 4), 'g', Fact.COULD_BE),
+        FactAt(Point(2, 4), 'g', Fact.COULD_BE),
+        FactAt(Point(3, 4), 'g', Fact.COULD_BE),
     }
 
 
