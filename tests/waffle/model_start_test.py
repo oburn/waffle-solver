@@ -1,4 +1,4 @@
-from src.model import CellInput, CellInputState, Fact, FactAt, InitialState, Point, WordDirection
+from waffle.model import CellInput, CellInputState, Fact, FactAt, InitialState, Point, WordDirection
 
 def example2_input() -> InitialState:
     return InitialState((

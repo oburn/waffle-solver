@@ -1,5 +1,5 @@
 from pathlib import Path
-from src.matcher import Matcher
+from waffle.matcher import Matcher
 
 def test_missing() -> None:
     matcher = Matcher(Path("src/valid-words.txt"))

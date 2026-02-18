@@ -102,3 +102,18 @@ class InitialState:
                     (cell.pt.y in {0, 2, 4} and cell.pt.y == w.pt.y)):
                     axis_cells.add(w)
         return axis_cells
+
+    def all_facts(self) -> set[FactAt]:
+        facts: set[FactAt] = set()
+        for word_cells in self.rows:
+            for cell in word_cells:
+                if cell is not None:
+                    facts.update(self.basic_facts_at(cell))
+        return facts
+
+    def word_facts(self, word: WordInput) -> set[FactAt]:
+        result: set[FactAt] = set()
+        all_facts = self.all_facts()
+        for cell in word.word:
+            result.update(f for f in all_facts if f.point == cell.pt)
+        return result
