@@ -1,5 +1,7 @@
+from textual import on
 from textual.app import App, ComposeResult
 from textual.containers import Grid
+from textual.events import Click
 from textual.widgets import Input, Static
 
 WAFFLE_BLOCKED = {(1, 1), (3, 1), (1, 3), (3, 3)}  # corners
@@ -34,13 +36,27 @@ class WaffleApp(App):
         layout: grid;
         grid-size: 5 5;
         grid-gutter: 0 0;
+        width: 15;
+        height: 15;
     }
 
     .cell, .block {
-        width: 5;          /* room for borders + centered letter */
+        width: 3;          /* room for borders + centered letter */
         height: 3;
         content-align: center middle;
         border: solid $foreground;
+    }
+
+    .cell.exact {
+        background: green;
+    }
+
+    .cell.along {
+        background: lightgreen;
+    }
+
+    .cell.miss {
+        background: silver;
     }
 
     .cell {
@@ -60,7 +76,15 @@ class WaffleApp(App):
                     if (r, c) in WAFFLE_BLOCKED:
                         yield Block(r, c)
                     else:
-                        yield Cell(r, c)
+                        c = Cell(r, c)
+                        c.classes = "cell miss"
+                        c.disabled = True
+                        yield c
+
+    @on(Click)  # Center cell only
+    def center_clicked(self, event: Click) -> None:
+        self.bell()
+
 
 if __name__ == "__main__":
     WaffleApp().run()
