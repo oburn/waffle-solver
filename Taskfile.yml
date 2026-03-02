@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+vars:
+  GREETING: Hello, world!
+
+tasks:
+  default:
+    desc: Lists the available tasks
+    cmds:
+      - task -a
+    silent: true
+
+  console:
+    desc: Run console for debugging
+    cmds:
+      - textual console -x SYSTEM -x EVENT
+
+  debug:
+    desc: Run the application in debug mode
+    cmds:
+      - textual run --dev src/waffle/main.py

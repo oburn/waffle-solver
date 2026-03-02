@@ -70,6 +70,7 @@ class WaffleApp(App):
     """
 
     def compose(self) -> ComposeResult:
+        self.log("Composing the waffle grid...")
         with Grid(id="waffle"):
             for r in range(5):
                 for c in range(5):
@@ -77,7 +78,7 @@ class WaffleApp(App):
                         yield Block(r, c)
                     else:
                         c = Cell(r, c)
-                        c.classes = "cell miss"
+                        c.classes = "cell exact"
                         c.disabled = True
                         yield c
 
