@@ -27,47 +27,7 @@ class Block(Static):
         self.c = c
 
 class WaffleApp(App):
-    CSS = """
-    Screen {
-        align: center middle;
-    }
-
-    #waffle {
-        layout: grid;
-        grid-size: 5 5;
-        grid-gutter: 0 0;
-        width: 15;
-        height: 15;
-    }
-
-    .cell, .block {
-        width: 3;          /* room for borders + centered letter */
-        height: 3;
-        content-align: center middle;
-        border: solid $foreground;
-    }
-
-    .cell.exact {
-        background: green;
-    }
-
-    .cell.along {
-        background: lightgreen;
-    }
-
-    .cell.miss {
-        background: silver;
-    }
-
-    .cell {
-        padding: 0 0;
-    }
-
-    .block {
-        background: $panel;
-        color: $text-muted;
-    }
-    """
+    CSS_PATH = "waffle.tcss"
 
     def compose(self) -> ComposeResult:
         self.log("Composing the waffle grid...")
