@@ -1,23 +1,47 @@
-# yaml-language-server: $schema=https://taskfile.dev/schema.json
+# https://taskfile.dev
 
 version: '3'
 
 vars:
-  GREETING: Hello, world!
+  JAR_FILE: target/finance-reports-1.0-SNAPSHOT-jar-with-dependencies.jar
+  LEDGER_DIR: "{{.HOME}}/myledger"
 
 tasks:
   default:
-    desc: Lists the available tasks
     cmds:
       - task -a
     silent: true
+    desc: Lists the available tasks
 
-  console:
-    desc: Run console for debugging
+  clean:
+    desc: Clean everything
     cmds:
-      - textual console -x SYSTEM -x EVENT
+      - mvn clean
 
-  debug:
-    desc: Run the application in debug mode
+  test:
+    desc: Run the tests
     cmds:
-      - textual run --dev src/waffle/main.py
+      - mvn test
+
+  gen-jar:
+    desc: Builds the executable JAR
+    cmds:
+      - mvn compile assembly:single
+    sources:
+      - pom.xml
+      - src/main/java/**/*.java
+      - src/main/kotlin/**/*.kt
+    generates:
+      - "{{.JAR_FILE}}"
+
+  run:
+    deps: [gen-jar]
+    desc: Run with `task run`
+    cmds:
+      - java --enable-native-access=ALL-UNNAMED --class-path {{.JAR_FILE}} finrpts.app.AppRunner {{.LEDGER_DIR}}
+
+  upgrade-list:
+    desc: Report on available upgrades
+    cmds:
+      - mvn versions:display-plugin-updates
+      - mvn versions:display-dependency-updates
