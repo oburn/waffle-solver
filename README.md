@@ -1,24 +1,6 @@
 # Welcome
 
-This repository is a Python based solved for the Waffle game.
+This repository is a solver for the Waffle word game.
 
-It is an opportunity to learn Python with types, using `uv` as the package manager, and using the [textual](https://textual.textualize.io/) framework for a nice tui.
+Originally this was done in Python, the code exists on the [python-variant](https://github.com/oburn/waffle-solver/tree/python-variant) branch.
 
-# Initial setup
-
-Created the repository using:
-
-``` sh
-uv init waffle-solver
-```
-
-Added textual using (sideeffect is to create the virtual environment):
-
-``` sh
-uv add textual
-uv add --dev textual-dev
-uv add --dev pytest
-uv add --dev mypy
-uv sync
-uv lock
-```
