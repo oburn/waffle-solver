@@ -9,6 +9,7 @@ import waffle.engine.Fact.CANNOT_BE
 import waffle.engine.Fact.MAY_BE
 import waffle.engine.Fact.MUST_BE
 import waffle.engine.Samples.SAMPLE1
+import waffle.engine.Samples.SAMPLE2
 
 class WaffleStateTest {
     @Test
@@ -222,6 +223,24 @@ class WaffleStateTest {
                     "pygmy"
                 )
             )
+        )
+    }
+
+    @Test
+    fun `testing impliedFacts`() {
+        assertThat(SAMPLE2.impliedFacts()).containsExactlyInAnyOrder(
+            CellFact(point=Point(x=0, y=1), fact=MAY_BE, letter='e'),
+            CellFact(point=Point(x=4, y=1), fact=MAY_BE, letter='e'),
+            CellFact(point=Point(x=4, y=3), fact=MAY_BE, letter='e'),
+            CellFact(point=Point(x=1, y=0), fact=MAY_BE, letter='r'),
+            CellFact(point=Point(x=3, y=0), fact=MAY_BE, letter='r'),
+            CellFact(point=Point(x=0, y=1), fact=MAY_BE, letter='r'),
+            CellFact(point=Point(x=4, y=1), fact=MAY_BE, letter='r'),
+            CellFact(point=Point(x=0, y=2), fact=MAY_BE, letter='r'),
+            CellFact(point=Point(x=1, y=2), fact=MAY_BE, letter='r'),
+            CellFact(point=Point(x=3, y=2), fact=MAY_BE, letter='r'),
+            CellFact(point=Point(x=4, y=2), fact=MAY_BE, letter='r'),
+            CellFact(point=Point(x=4, y=3), fact=MAY_BE, letter='r'),
         )
     }
 }

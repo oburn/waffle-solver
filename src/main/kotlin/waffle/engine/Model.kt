@@ -1,5 +1,6 @@
 package waffle.engine
 
+import waffle.engine.CellState.ALONG
 import waffle.engine.CellState.EXACT
 import waffle.engine.CellState.MISS
 import waffle.engine.Direction.HORIZONTAL
@@ -44,9 +45,9 @@ fun Int.isEven() = this % 2 == 0
 
 data class WaffleState(val rows: List<Row>) {
     fun asString(): String {
-        return rows.map { r ->
+        return rows.joinToString("\n") { r ->
             r.map { it.letter }.joinToString("")
-        }.joinToString("\n")
+        }
     }
 
     fun cellsInline(with: Point): Set<Cell> {
@@ -71,7 +72,7 @@ data class WaffleState(val rows: List<Row>) {
                 result.add(CellFact(cell.point, MUST_BE, cell.letter))
             }
 
-            CellState.ALONG -> {
+            ALONG -> {
                 result.add(CellFact(cell.point, CANNOT_BE, cell.letter))
                 cellsInline(point)
                     .filterNot { it.state == EXACT }
@@ -95,6 +96,28 @@ data class WaffleState(val rows: List<Row>) {
                     .toCollection(result)
             }
         }
+        return result.toSet()
+    }
+
+    fun impliedFacts(): Set<CellFact> {
+        val result = mutableSetOf<CellFact>()
+
+        // Look for where there are 2 or more cells containing the same letter and are ALONG
+        // Look for whether there is an intersection on adjacent lines, because if there is
+        // then other non-adjacent cells could have the letter
+
+        val letterToCells = nonExactCells()
+            .filter { it.state == ALONG }
+            .groupBy { it.letter }
+        letterToCells.entries.filter { it.value.size > 1 }.forEach { entry ->
+            val allCellsInline = entry.value.flatMap { cellsInline(it.point) }
+            val dedupedCellsInline = allCellsInline.toSet()
+            if (allCellsInline.size != dedupedCellsInline.size) {
+                val candidates = nonExactCells() - dedupedCellsInline - entry.value.toSet()
+                candidates.map { CellFact(it.point, letter = entry.key, fact = MAY_BE)}.toCollection(result)
+            }
+        }
+
         return result.toSet()
     }
 
