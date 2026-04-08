@@ -195,27 +195,27 @@ class WaffleStateTest {
     fun `testing solving sample1`() {
         val state = SAMPLE1
         val soln = state.solve()
-        assertThat(soln).containsExactly(
-            Pair(WordStart(Point(x = 0, y = 0), direction = HORIZONTAL), listOf("creep", "croup")),
-            Pair(
+        assertThat(soln.candidates).containsExactly(
+            WordCandidates(WordStart(Point(x = 0, y = 0), direction = HORIZONTAL), listOf("creep", "croup")),
+            WordCandidates(
                 WordStart(Point(x = 0, y = 4), direction = HORIZONTAL),
                 listOf("embay", "emery", "enemy", "envoy", "every")
             ),
-            Pair(
+            WordCandidates(
                 WordStart(Point(x = 2, y = 0), direction = VERTICAL),
                 listOf("alive", "baile", "blive", "oliva", "olive")
             ),
-            Pair(
+            WordCandidates(
                 WordStart(Point(x = 0, y = 0), direction = VERTICAL),
                 listOf("cable", "cabre", "carle", "carne", "carve", "cruve", "cryne", "curve")
             ),
-            Pair(
+            WordCandidates(
                 WordStart(Point(x = 0, y = 2), direction = HORIZONTAL), listOf(
                     "being", "bling", "bribe", "brier", "brill", "brine",
                     "bring", "nying", "reine", "reing", "ruing", "urine"
                 )
             ),
-            Pair(
+            WordCandidates(
                 WordStart(Point(x = 4, y = 0), direction = VERTICAL), listOf(
                     "palay", "pally", "palmy", "panny", "parly", "parry", "peely",
                     "peery", "peggy", "penny", "permy", "perry", "pervy", "plumy",

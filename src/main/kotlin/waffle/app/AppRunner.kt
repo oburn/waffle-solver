@@ -3,7 +3,6 @@ package waffle.app
 import io.javelit.components.text.MarkdownComponent
 import io.javelit.core.Jt
 import io.javelit.core.Server
-import org.jetbrains.kotlinx.dataframe.impl.asList
 import waffle.engine.Cell
 import waffle.engine.CellState
 import waffle.engine.Samples
@@ -49,8 +48,14 @@ class AppRunner(
             solution = state.solve()
         }
 
-        if (solution != null) {
-            Jt.text((solution as Solution).asList().joinToString("\n")).use()
+        val soln = solution
+        if (soln != null) {
+            Jt.subheader("Candidates:").use()
+            Jt.text(soln.candidates.joinToString("\n") { "${it.start.point} - ${it.start.direction} - ${it.candidates}" }).use()
+            if (soln.singleLetters.isNotEmpty()) {
+                Jt.subheader("Single letters:").use()
+                Jt.text(soln.singleLetters.joinToString("\n") { "${it.point} - ${it.letter}" }).use()
+            }
         }
     }
 
@@ -99,7 +104,7 @@ class AppRunner(
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            val app = AppRunner(state = Samples.SAMPLE2)
+            val app = AppRunner(state = Samples.SAMPLE1)
             app.run()
             // Don't exit, as the HTTP server is running.
         }

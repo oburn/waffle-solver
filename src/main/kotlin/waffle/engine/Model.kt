@@ -39,7 +39,8 @@ enum class Fact {
 
 data class CellFact(val point: Point, val fact: Fact, val letter: Char)
 
-typealias Solution = List<Pair<WordStart, List<String>>>
+data class WordCandidates(val start: WordStart, val candidates: List<String>)
+data class Solution(val candidates: List<WordCandidates>, val singleLetters: List<Cell>)
 
 fun Int.isEven() = this % 2 == 0
 
@@ -122,9 +123,10 @@ data class WaffleState(val rows: List<Row>) {
     }
 
     fun allFacts(): Set<CellFact> {
-        return rows.flatten()
+        val allBasicFacts = rows.flatten()
             .flatMap { basicFactsAt(it.point) }
             .toSet()
+        return impliedFacts() + allBasicFacts
     }
 
     fun wordRegex(word: Word): String {
@@ -153,10 +155,16 @@ data class WaffleState(val rows: List<Row>) {
     }
 
     fun solve(): Solution {
-        return words()
-            .map { Pair(WordStart(it.cells.first().point, it.direction), Matcher.search(wordRegex(it))) }
-            .sortedBy { it.second.size }
+        val candidates = words()
+            .map { WordCandidates(WordStart(it.cells.first().point, it.direction), Matcher.search(wordRegex(it))) }
             .toList()
+        val singleLetters = nonExactCells()
+            .groupBy { it.letter }
+            .entries
+            .filter { it.value.size == 1 }
+            .sortedBy { it.key }
+            .flatMap { it.value }
+        return Solution(candidates = candidates, singleLetters = singleLetters)
     }
 
     fun nonExactCells(): Set<Cell> =
