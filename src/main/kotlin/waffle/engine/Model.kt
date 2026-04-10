@@ -21,7 +21,11 @@ enum class CellState {
     }
 }
 
-data class Point(val x: Int, val y: Int)
+data class Point(val x: Int, val y: Int) : Comparable<Point> {
+    override fun compareTo(other: Point): Int =
+        compareValuesBy(this, other, { it.y }, { it.x })
+}
+
 data class Cell(val point: Point, val letter: Char, val state: CellState)
 
 // Have optional to support the empty cells
@@ -37,14 +41,19 @@ enum class Fact {
     MUST_BE, CANNOT_BE, MAY_BE
 }
 
-data class CellFact(val point: Point, val fact: Fact, val letter: Char)
+data class CellFact(val point: Point, val fact: Fact, val letter: Char) : Comparable<CellFact> {
+    override fun compareTo(other: CellFact): Int = this.point.compareTo(other.point)
+}
 
 data class WordCandidates(val start: WordStart, val candidates: List<String>)
-data class Solution(val candidates: List<WordCandidates>, val singleLetters: List<Cell>)
+data class Solution(
+    val candidates: List<WordCandidates>,
+    val singleLetters: List<Cell>,
+)
 
 fun Int.isEven() = this % 2 == 0
 
-data class WaffleState(val rows: List<Row>) {
+data class WaffleState(val rows: List<Row>, val extraFacts: Set<CellFact>) {
     fun asString(): String {
         return rows.joinToString("\n") { r ->
             r.map { it.letter }.joinToString("")
@@ -115,7 +124,7 @@ data class WaffleState(val rows: List<Row>) {
             val dedupedCellsInline = allCellsInline.toSet()
             if (allCellsInline.size != dedupedCellsInline.size) {
                 val candidates = nonExactCells() - dedupedCellsInline - entry.value.toSet()
-                candidates.map { CellFact(it.point, letter = entry.key, fact = MAY_BE)}.toCollection(result)
+                candidates.map { CellFact(it.point, letter = entry.key, fact = MAY_BE) }.toCollection(result)
             }
         }
 
@@ -126,7 +135,7 @@ data class WaffleState(val rows: List<Row>) {
         val allBasicFacts = rows.flatten()
             .flatMap { basicFactsAt(it.point) }
             .toSet()
-        return impliedFacts() + allBasicFacts
+        return impliedFacts() + allBasicFacts + extraFacts
     }
 
     fun wordRegex(word: Word): String {
@@ -202,7 +211,7 @@ data class WaffleState(val rows: List<Row>) {
             }
         }
 
-        return WaffleState(newRows)
+        return WaffleState(newRows, extraFacts)
     }
 }
 
@@ -228,5 +237,5 @@ fun buildState(from: String, retainingFrom: WaffleState? = null): WaffleState {
         }
     }
 
-    return WaffleState(rows)
+    return WaffleState(rows, retainingFrom?.extraFacts ?: emptySet())
 }

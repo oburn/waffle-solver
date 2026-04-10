@@ -5,6 +5,7 @@ import io.javelit.core.Jt
 import io.javelit.core.Server
 import waffle.engine.Cell
 import waffle.engine.CellState
+import waffle.engine.Fact
 import waffle.engine.Samples
 import waffle.engine.Solution
 import waffle.engine.WaffleState
@@ -37,7 +38,7 @@ class AppRunner(
         }
 
         Jt.divider().use()
-        val buttons = Jt.columns(3).use()
+        val buttons = Jt.columns(4).use()
         if (Jt.button("Bulk letters").use(buttons.col(0))) {
             Jt.switchPage("/bulkLetters")
         }
@@ -46,17 +47,29 @@ class AppRunner(
         }
         if (Jt.button("Solve").use(buttons.col(2))) {
             solution = state.solve()
+            state = state.copy(extraFacts = state.allFacts().filter { it.fact == Fact.CANNOT_BE }.toSet())
+        }
+        if (Jt.button("Wipe").use(buttons.col(3))) {
+            solution = null
+            state = state.copy(extraFacts = emptySet())
         }
 
         val soln = solution
         if (soln != null) {
             Jt.subheader("Candidates:").use()
-            Jt.text(soln.candidates.joinToString("\n") { "${it.start.point} - ${it.start.direction} - ${it.candidates}" }).use()
+            Jt.text(soln.candidates
+                .joinToString("\n") { "${it.start.point} - ${it.start.direction} - ${it.candidates}" })
+                .use()
             if (soln.singleLetters.isNotEmpty()) {
                 Jt.subheader("Single letters:").use()
                 Jt.text(soln.singleLetters.joinToString("\n") { "${it.point} - ${it.letter}" }).use()
             }
+            Jt.subheader("All Facts (${state.allFacts().size})").use()
+            Jt.text(state.allFacts().sortedBy { it.point }.joinToString("\n") { "$it" }).use()
         }
+
+        Jt.subheader("Extra Facts (${state.extraFacts.size})").use()
+        Jt.text(state.extraFacts.joinToString("\n") { "$it" }).use()
     }
 
     fun buildLettersPage() {

@@ -6,7 +6,7 @@ import waffle.engine.CellState.MISS
 
 object Samples {
     val SAMPLE1 = WaffleState(
-        listOf(
+        rows = listOf(
             listOf(
                 Cell(point = Point(0, 0), letter = 'c', state = EXACT),
                 Cell(point = Point(1, 0), letter = 'r', state = EXACT),
@@ -38,11 +38,12 @@ object Samples {
                 Cell(point = Point(3, 4), letter = 'u', state = MISS),
                 Cell(point = Point(4, 4), letter = 'y', state = EXACT),
             ),
-        )
+        ),
+        extraFacts = emptySet(),
     )
 
     val SAMPLE2 = WaffleState(
-        listOf(
+        rows = listOf(
             listOf(
                 Cell(point = Point(0, 0), letter = 'c', state = EXACT),
                 Cell(point = Point(1, 0), letter = 'i', state = MISS),
@@ -74,11 +75,12 @@ object Samples {
                 Cell(point = Point(3, 4), letter = 'r', state = ALONG),
                 Cell(point = Point(4, 4), letter = 'e', state = EXACT),
             ),
-        )
+        ),
+        extraFacts = emptySet(),
     )
 
     val SAMPLE3 = WaffleState(
-        listOf(
+        rows = listOf(
             listOf(
                 Cell(point = Point(0, 0), letter = 'f', state = EXACT),
                 Cell(point = Point(1, 0), letter = 'b', state = MISS),
@@ -110,6 +112,7 @@ object Samples {
                 Cell(point = Point(3, 4), letter = 'n', state = MISS),
                 Cell(point = Point(4, 4), letter = 'a', state = EXACT),
             ),
-        )
+        ),
+        extraFacts = emptySet(),
     )
 }
