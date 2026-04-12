@@ -93,17 +93,26 @@ data class WaffleState(val rows: List<Row>, val extraFacts: Set<CellFact>) {
 
             MISS -> {
                 result.add(CellFact(cell.point, CANNOT_BE, cell.letter))
-                val cannotBeCells = cellsInline(point)
-                    .filterNot { it.state == EXACT }
-                    .filterNot { it.letter == cell.letter }
-                cannotBeCells.map { CellFact(it.point, CANNOT_BE, cell.letter) }.toCollection(result)
-                nonExactCells()
-                    .asSequence()
-                    .filter { !cannotBeCells.contains(it) }
-                    .filter { it.point != point }
-                    .filterNot { it.letter == cell.letter }
-                    .map { CellFact(it.point, MAY_BE, cell.letter) }
-                    .toCollection(result)
+                // handle the special where there are other cells inline with the same
+                // letter, but are flagged as along. If this is the case, don't add
+                // any more information.
+                val hasClashingCells = cellsInline(cell.point)
+                    .filter { it.letter == cell.letter }
+                    .any { it.state == ALONG }
+
+                if (!hasClashingCells) {
+                    val cannotBeCells = cellsInline(point)
+                        .filterNot { it.state == EXACT }
+                        .filterNot { it.letter == cell.letter }
+                    cannotBeCells.map { CellFact(it.point, CANNOT_BE, cell.letter) }.toCollection(result)
+                    nonExactCells()
+                        .asSequence()
+                        .filter { !cannotBeCells.contains(it) }
+                        .filter { it.point != point }
+                        .filterNot { it.letter == cell.letter }
+                        .map { CellFact(it.point, MAY_BE, cell.letter) }
+                        .toCollection(result)
+                }
             }
         }
         return result.toSet()

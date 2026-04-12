@@ -10,7 +10,9 @@ import waffle.engine.Fact.MAY_BE
 import waffle.engine.Fact.MUST_BE
 import waffle.engine.Samples.SAMPLE1
 import waffle.engine.Samples.SAMPLE2
+import waffle.engine.Samples.SAMPLE4
 
+@Suppress("SpellCheckingInspection")
 class WaffleStateTest {
     @Test
     fun `test asString`() {
@@ -159,6 +161,14 @@ class WaffleStateTest {
     }
 
     @Test
+    fun `basicFacts when multiple letters in row, one along, and another is a miss`() {
+        val state = SAMPLE4
+        assertThat(state.basicFactsAt(Point(1, 2))).containsExactlyInAnyOrder(
+            CellFact(Point(x = 1, y = 2), letter = 'r', fact = CANNOT_BE),
+        )
+    }
+
+    @Test
     fun basicFactsAt_along_1() {
         val state = SAMPLE1
         assertThat(state.basicFactsAt(Point(4, 1))).containsExactlyInAnyOrder(
@@ -195,7 +205,7 @@ class WaffleStateTest {
     fun `testing solving sample1`() {
         val state = SAMPLE1
         val soln = state.solve()
-        assertThat(soln.candidates).containsExactly(
+        assertThat(soln.candidates).containsExactlyInAnyOrder(
             WordCandidates(WordStart(Point(x = 0, y = 0), direction = HORIZONTAL), listOf("creep", "croup")),
             WordCandidates(
                 WordStart(Point(x = 0, y = 4), direction = HORIZONTAL),
@@ -242,5 +252,10 @@ class WaffleStateTest {
             CellFact(point=Point(x=4, y=2), fact=MAY_BE, letter='r'),
             CellFact(point=Point(x=4, y=3), fact=MAY_BE, letter='r'),
         )
+    }
+
+    @Test
+    fun `mulitple letters same row`() {
+        assertThat(SAMPLE4.wordRegex(SAMPLE4.words()[1])).isEqualTo("^[eflno][ceflno]f[ceflnor][cflr]$")
     }
 }
