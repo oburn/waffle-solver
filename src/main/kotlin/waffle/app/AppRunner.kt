@@ -64,9 +64,12 @@ class AppRunner(
                 Jt.subheader("Single letters:").use()
                 Jt.text(soln.singleLetters.joinToString("\n") { "${it.point} - ${it.letter}" }).use()
             }
-            Jt.subheader("All Facts (${state.allFacts().size})").use()
-            Jt.text(state.allFacts().sortedBy { it.point }.joinToString("\n") { "$it" }).use()
         }
+
+        Jt.subheader("All Word Regexs").use()
+        Jt.text(state.words().joinToString("\n") { "${it.cells.first().point} - ${it.direction} - ${state.wordRegex(it)}" }).use()
+        Jt.subheader("All Facts (${state.allFacts().size})").use()
+        Jt.text(state.allFacts().sortedBy { it.point }.joinToString("\n") { "$it" }).use()
 
         Jt.subheader("Extra Facts (${state.extraFacts.size})").use()
         Jt.text(state.extraFacts.joinToString("\n") { "$it" }).use()
@@ -117,7 +120,7 @@ class AppRunner(
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            val app = AppRunner(state = Samples.SAMPLE3)
+            val app = AppRunner(state = Samples.SAMPLE4)
             app.run()
             // Don't exit, as the HTTP server is running.
         }
