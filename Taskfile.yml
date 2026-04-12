@@ -3,8 +3,7 @@
 version: '3'
 
 vars:
-  JAR_FILE: target/finance-reports-1.0-SNAPSHOT-jar-with-dependencies.jar
-  LEDGER_DIR: "{{.HOME}}/myledger"
+  JAR_FILE: target/waffle-sovler-1.0-SNAPSHOT-jar-with-dependencies.jar
 
 tasks:
   default:
@@ -38,7 +37,7 @@ tasks:
     deps: [gen-jar]
     desc: Run with `task run`
     cmds:
-      - java --enable-native-access=ALL-UNNAMED --class-path {{.JAR_FILE}} finrpts.app.AppRunner {{.LEDGER_DIR}}
+      - java --enable-native-access=ALL-UNNAMED --class-path {{.JAR_FILE}} waffle.app.AppRunner
 
   upgrade-list:
     desc: Report on available upgrades
