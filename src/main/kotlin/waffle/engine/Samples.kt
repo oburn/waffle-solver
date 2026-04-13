@@ -116,6 +116,7 @@ object Samples {
         ),
         extraFacts = emptySet(),
     )
+
     val SAMPLE4 = WaffleState(
         rows = listOf(
             listOf(
@@ -148,6 +149,43 @@ object Samples {
                 Cell(point = Point(2, 4), letter = 'o', state = MISS),
                 Cell(point = Point(3, 4), letter = 'i', state = ALONG),
                 Cell(point = Point(4, 4), letter = 'y', state = EXACT),
+            ),
+        ),
+        extraFacts = emptySet(),
+    )
+
+    val SAMPLE5 = WaffleState(
+        rows = listOf(
+            listOf(
+                Cell(point = Point(0, 0), letter = 'h', state = EXACT),
+                Cell(point = Point(1, 0), letter = 't', state = ALONG),
+                Cell(point = Point(2, 0), letter = 'n', state = MISS),
+                Cell(point = Point(3, 0), letter = 'e', state = ALONG),
+                Cell(point = Point(4, 0), letter = 'h', state = EXACT),
+            ),
+            listOf(
+                Cell(point = Point(0, 1), letter = 'd', state = MISS),
+                Cell(point = Point(2, 1), letter = 't', state = ALONG),
+                Cell(point = Point(4, 1), letter = 'r', state = MISS),
+            ),
+            listOf(
+                Cell(point = Point(0, 2), letter = 'p', state = MISS),
+                Cell(point = Point(1, 2), letter = 'i', state = ALONG),
+                Cell(point = Point(2, 2), letter = 'a', state = EXACT),
+                Cell(point = Point(3, 2), letter = 't', state = ALONG),
+                Cell(point = Point(4, 2), letter = 'i', state = MISS),
+            ),
+            listOf(
+                Cell(point = Point(0, 3), letter = 'e', state = EXACT),
+                Cell(point = Point(2, 3), letter = 'h', state = MISS),
+                Cell(point = Point(4, 3), letter = 'c', state = EXACT),
+            ),
+            listOf(
+                Cell(point = Point(0, 4), letter = 'l', state = EXACT),
+                Cell(point = Point(1, 4), letter = 'a', state = MISS),
+                Cell(point = Point(2, 4), letter = 'e', state = MISS),
+                Cell(point = Point(3, 4), letter = 'o', state = MISS),
+                Cell(point = Point(4, 4), letter = 'e', state = EXACT),
             ),
         ),
         extraFacts = emptySet(),

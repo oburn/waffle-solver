@@ -11,13 +11,15 @@ import waffle.engine.Fact.MUST_BE
 import waffle.engine.Samples.SAMPLE1
 import waffle.engine.Samples.SAMPLE2
 import waffle.engine.Samples.SAMPLE4
+import waffle.engine.Samples.SAMPLE5
 
 @Suppress("SpellCheckingInspection")
 class WaffleStateTest {
     @Test
     fun `test asString`() {
         assertThat(SAMPLE1.asString()).isEqualTo(
-            "crmvp\nerg\nlaivy\nenb\nelouy")
+            "crmvp\nerg\nlaivy\nenb\nelouy"
+        )
     }
 
     @Test
@@ -165,6 +167,14 @@ class WaffleStateTest {
         val state = SAMPLE4
         assertThat(state.basicFactsAt(Point(1, 2))).containsExactlyInAnyOrder(
             CellFact(Point(x = 1, y = 2), letter = 'r', fact = CANNOT_BE),
+            CellFact(Point(x = 1, y = 0), fact = MAY_BE, letter = 'r'),
+            CellFact(Point(x = 2, y = 0), fact = MAY_BE, letter = 'r'),
+            CellFact(Point(x = 3, y = 0), fact = MAY_BE, letter = 'r'),
+            CellFact(Point(x = 0, y = 1), fact = MAY_BE, letter = 'r'),
+            CellFact(Point(x = 4, y = 1), fact = MAY_BE, letter = 'r'),
+            CellFact(Point(x = 4, y = 3), fact = MAY_BE, letter = 'r'),
+            CellFact(Point(x = 2, y = 4), fact = MAY_BE, letter = 'r'),
+            CellFact(Point(x = 3, y = 4), fact = MAY_BE, letter = 'r'),
         )
     }
 
@@ -239,23 +249,28 @@ class WaffleStateTest {
     @Test
     fun `testing impliedFacts`() {
         assertThat(SAMPLE2.impliedFacts()).containsExactlyInAnyOrder(
-            CellFact(point=Point(x=0, y=1), fact=MAY_BE, letter='e'),
-            CellFact(point=Point(x=4, y=1), fact=MAY_BE, letter='e'),
-            CellFact(point=Point(x=4, y=3), fact=MAY_BE, letter='e'),
-            CellFact(point=Point(x=1, y=0), fact=MAY_BE, letter='r'),
-            CellFact(point=Point(x=3, y=0), fact=MAY_BE, letter='r'),
-            CellFact(point=Point(x=0, y=1), fact=MAY_BE, letter='r'),
-            CellFact(point=Point(x=4, y=1), fact=MAY_BE, letter='r'),
-            CellFact(point=Point(x=0, y=2), fact=MAY_BE, letter='r'),
-            CellFact(point=Point(x=1, y=2), fact=MAY_BE, letter='r'),
-            CellFact(point=Point(x=3, y=2), fact=MAY_BE, letter='r'),
-            CellFact(point=Point(x=4, y=2), fact=MAY_BE, letter='r'),
-            CellFact(point=Point(x=4, y=3), fact=MAY_BE, letter='r'),
+            CellFact(point = Point(x = 0, y = 1), fact = MAY_BE, letter = 'e'),
+            CellFact(point = Point(x = 4, y = 1), fact = MAY_BE, letter = 'e'),
+            CellFact(point = Point(x = 4, y = 3), fact = MAY_BE, letter = 'e'),
+            CellFact(point = Point(x = 1, y = 0), fact = MAY_BE, letter = 'r'),
+            CellFact(point = Point(x = 3, y = 0), fact = MAY_BE, letter = 'r'),
+            CellFact(point = Point(x = 0, y = 1), fact = MAY_BE, letter = 'r'),
+            CellFact(point = Point(x = 4, y = 1), fact = MAY_BE, letter = 'r'),
+            CellFact(point = Point(x = 0, y = 2), fact = MAY_BE, letter = 'r'),
+            CellFact(point = Point(x = 1, y = 2), fact = MAY_BE, letter = 'r'),
+            CellFact(point = Point(x = 3, y = 2), fact = MAY_BE, letter = 'r'),
+            CellFact(point = Point(x = 4, y = 2), fact = MAY_BE, letter = 'r'),
+            CellFact(point = Point(x = 4, y = 3), fact = MAY_BE, letter = 'r'),
         )
     }
 
     @Test
     fun `mulitple letters same row`() {
         assertThat(SAMPLE4.wordRegex(SAMPLE4.words()[1])).isEqualTo("^[eflno][ceflno]f[ceflnor][cflr]$")
+    }
+
+    @Test
+    fun `mulitple letters same row again`() {
+        assertThat(SAMPLE5.wordRegex(SAMPLE5.words()[2])).isEqualTo("^l[dhinprt][diprt][dhinprt]e$")
     }
 }

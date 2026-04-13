@@ -120,7 +120,7 @@ class AppRunner(
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            val app = AppRunner(state = Samples.SAMPLE4)
+            val app = AppRunner(state = Samples.SAMPLE5)
             app.run()
             // Don't exit, as the HTTP server is running.
         }
